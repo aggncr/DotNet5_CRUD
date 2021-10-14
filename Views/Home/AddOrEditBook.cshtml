@@ -1,0 +1,36 @@
+﻿@model DotNet5_CRUD.Models.CreateOrUpdateBookViewModel
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="row">
+    <div class="col-12 text-right">
+        <a href="@Url.Action("Index")" class="btn btn-success"><i class="bi bi-list-ol"></i> List Book</a>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <form method="post" autocomplete="off">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" />
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                <input asp-for="Name" class="form-control">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PageSize)
+                <input asp-for="PageSize" class="form-control">
+                <span asp-validation-for="PageSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.AuthorId)
+                <select class="form-control" asp-for="AuthorId" asp-items="Model.Authors"></select>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

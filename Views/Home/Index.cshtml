@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DotNet5_CRUD.Models.ListBookViewModel>
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="row">
+    <div class="col-12 text-right">
+        <a href="@Url.Action("AddOrEditBook")" class="btn btn-success"><i class="bi bi-file-earmark-plus-fill"></i> New Book</a>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Book Name</th>
+                    <th scope="col">Page Size</th>
+                    <th scope="col">Author Name</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <th scope="row">@book.Id</th>
+                        <td>@book.Name</td>
+                        <td>@book.PageSize</td>
+                        <td>@book.Author</td>
+                        <td>
+                            <a href="@Url.Action("AddOrEditBook", new { id = book.Id })" class="btn btn-sm btn-primary"><i class="bi bi-pencil-fill"></i> Edit</a>
+                            <button type="button" data-id="@book.Id" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i> Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $('button').click(function () {
+            var id = $(this).data('id');
+            if (confirm('Are you sure ?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/Home/DeleteBook',
+                    data: JSON.stringify(id),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            window.location = '/Home/Index';
+                        }
+                    },
+                    failure: function (response) {
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    </script>
+}
